@@ -12,7 +12,7 @@ CREATE TABLE tbl_usuarios (
     apellido_usuario 	VARCHAR(100) NOT NULL,
     email_usuario 		VARCHAR(150) NOT NULL,
     password_usuario 	VARCHAR(100) NOT NULL,
-    rol_usuario 		ENUM('Admin', 'Vendedor', 'Cliente'),
+    rol_usuario 		ENUM('Admin', 'Cliente'),
     
     CONSTRAINT pk_usuario PRIMARY KEY (id_usuario),
     CONSTRAINT uq_email UNIQUE (email_usuario)
@@ -48,10 +48,11 @@ CREATE TABLE tbl_proveedores(
 
 # ## CREAMOS LA TABLA STOCK ##
 CREATE TABLE tbl_stock(
-	id_stock INT NOT NULL,
+	id_stock INT NOT NULL AUTO_INCREMENT,
     cantidad INT NOT NULL,
     CONSTRAINT pk_stock PRIMARY KEY (id_stock)
 );
+
 
 # ## CREAMOS LA TABLA PRODUCTOS ##
 CREATE TABLE tbl_productos(
@@ -140,8 +141,6 @@ CREATE TABLE tbl_inventarios(
 	CONSTRAINT fk_inventario_stock FOREIGN KEY tbl_inventarios(stock_id)
 		REFERENCES tbl_stock(id_stock)
 );
-
-
 
 
 
