@@ -98,10 +98,10 @@ INSERT INTO tbl_ventas(cliente_id, producto_id, cantidad_compra, precio_unitario
 
 
 DELIMITER $$
-CREATE TRIGGER IF NOT EXISTS tbl_ventas_AU 
+CREATE TRIGGER IF NOT EXISTS tbl_ventas_AI 
 AFTER INSERT ON tbl_ventas FOR EACH ROW
 	BEGIN
-		UPDATE tbl_stock SET cantidad = cantidad - NEW.cantidad_compra WHERE id_stock = producto_id
+		UPDATE tbl_stock SET cantidad = cantidad - NEW.cantidad_compra WHERE id_stock = producto_id;
 	END; $$
 
 DELIMITER ;
@@ -113,6 +113,15 @@ INSERT INTO tbl_pedidos(proveedor_id, producto_id, usuario_id, cantidad_pedido, 
 		VALUE(10, 2, 1, 100, NOW()),
 			(10, 1, 1, 50, NOW());
         
+CREATE TRIGGER IF NOT EXISTS tbl_pedidos_AI
+AFTER INSERT ON tbl_pedidos FOR EACH ROW
+	BEGIN
+		UPDATE tbl_stock SET cantidad = cantidad + cantidad_pedido WHERE id_stock = producto_id;
+	END; $$
+
+DELIMITER;
+
+
 
 
 # INSERT DE INVENTARIOS 
