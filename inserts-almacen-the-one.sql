@@ -36,6 +36,7 @@ CALL registro_usuario('Ricardo', 'Pineda', 'rpineda@mail.com', 'Admin', 'Admin',
 CALL registro_usuario('Jorge', 'Ramirez', 'jramirez@mail.com', 'Cliente', 'Cliente', '6120-7076');
 
                     
+                    
 # --- INSERTS DE TABLA DE CATEGORIAS ---
 INSERT INTO tbl_categorias(nombre_categoria) 
 					VALUE('Periféricos'),
@@ -49,8 +50,9 @@ INSERT INTO tbl_categorias(nombre_categoria)
                         ('Almacenamiento'),
                         ('Impresores');
                         
+                        
+                        
 # --- inserts de la tabla proveedores ---
-
 INSERT INTO tbl_proveedores(nombre_proveedor, direccion, telefono)
 					VALUE('SEMIC IT Solutions', 'Madrid, España', '1161-0080'),
 						('innovaTECH', 'Urb. Samantha Torres # 77 Hab. 113', '1269-0078'),
@@ -64,6 +66,9 @@ INSERT INTO tbl_proveedores(nombre_proveedor, direccion, telefono)
                         ('Vita Chips', 'Cl. Franco Ceja # 4202 Piso 9', '6938-8680');
 					
 select * from tbl_proveedores;
+
+
+
 
 ## PROCEDIMIENTO ALMACENADO PARA INSERT DE PRODUCTO Y STOCK
 
@@ -81,6 +86,31 @@ CREATE PROCEDURE registro_producto(Pproveedor_id INT, Pcategoria_id INT, Pcantid
 DELIMITER ;
 
 CALL registro_producto(1,  4, 50, 'Monitor 24" HP 24F', 185.00);
+CALL registro_producto(1,  1, 150, 'Mause Gaming XTrike me Viper', 15.00);
+CALL registro_producto(6,  7, 35, 'Silla Gaming Razer Iskur X', 385.00);
+
+
+
+## INSERT DE VENTAS
+INSERT INTO tbl_ventas(cliente_id, producto_id, cantidad_compra, precio_unitario, forma_pago, descuento, monto_total, fecha_venta) 
+					VALUE(1, 3, 10, 385.00, 'Tarjeta', 0.0, 3850, NOW()),
+						 (1, 1, 10, 185.00, 'Tarjeta', 0.0, 1850, NOW());
+
+
+
+
+
+# INSERT DE PEDIDOS
+INSERT INTO tbl_pedidos(proveedor_id, producto_id, usuario_id, cantidad_pedido, fecha_pedido) 
+		VALUE(10, 2, 1, 100, NOW()),
+			(10, 1, 1, 50, NOW());
+        
+
+
+# INSERT DE INVENTARIOS 
+INSERT INTO tbl_inventarios(producto_id, categoria_id, pedido_id, venta_id, stock_id) 
+					  VALUE(1, 4, 2, 2, 1);
+
 
 
                     
