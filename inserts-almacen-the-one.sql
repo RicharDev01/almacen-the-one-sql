@@ -97,6 +97,14 @@ INSERT INTO tbl_ventas(cliente_id, producto_id, cantidad_compra, precio_unitario
 						 (1, 1, 10, 185.00, 'Tarjeta', 0.0, 1850, NOW());
 
 
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS tbl_ventas_AU 
+AFTER INSERT ON tbl_ventas FOR EACH ROW
+	BEGIN
+		UPDATE tbl_stock SET cantidad = cantidad - NEW.cantidad_compra WHERE id_stock = producto_id
+	END; $$
+
+DELIMITER ;
 
 
 
