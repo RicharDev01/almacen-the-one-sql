@@ -111,6 +111,6 @@ INSERT INTO tbl_pedidos(proveedor_id, producto_id, usuario_id, cantidad_pedido, 
 INSERT INTO tbl_inventarios(producto_id, categoria_id, pedido_id, venta_id, stock_id) 
 					  VALUE(1, 4, 2, 2, 1);
 
-
+# CREATE TRIGGER NOMBRE_TRIGGER_BU BEFORE UPDATE ON TABLA_DE_ACTUAR_DEL_TRIGGER FOR EACH ROW INSERT INTO XXXXXX OLD & NEW
 
                     
