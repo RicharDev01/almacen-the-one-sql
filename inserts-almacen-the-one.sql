@@ -32,8 +32,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE tbl_usuarios;
 SET FOREIGN_KEY_CHECKS = 1;
 */
-CALL registro_usuario('Ricardo', 'Pineda', 'rpineda@mail.com', 'Admin', 'Admin', null);
-CALL registro_usuario('Jorge', 'Ramirez', 'jramirez@mail.com', 'Cliente', 'Cliente', '6120-7076');
+CALL registro_usuario('Ricardo', 'Pineda', 'rpineda@mail.com', 'rpineda', 'Admin', null),
+					 ('Jorge', 'Ramirez', 'jramirez@mail.com', 'jramirez', 'Admin', '6120-7076'),
+					 ('Josue', 'Jacobo', 'jjacobo@mail.com', 'jjacobo', 'Cliente', '7076-6120'),
+					 ('Nelso', 'Martinez', 'nmartinez@mail.com', 'nmartinez', 'Cliente', '7076-6120'),
+					 ('Cristian', 'Flores', 'cflores@mail.com', 'cflores', 'Cliente', '7076-6120'),
+					 ('Rolando', 'Monterrosa', 'rmonterrosa@mail.com', 'rmonterrosa', 'Admin', '7076-6120'),
+					 ('Liliana', 'Hernandez', 'lhernandez@mail.com', 'lhernandez', 'Cliente', '7076-6120'),
+					 ('Pedro', 'Hernandez', 'phernandez@mail.com', 'phernandez', 'Cliente', '7076-6120'),
+					 ('Mauricio', 'Naves', 'mnaves@mail.com', 'mnaves', 'Cliente', '7076-6120'),
+					 ('Angel', 'Rodriguez', 'arodriguez@mail.com', 'arodriguez', 'Cliente', '7076-6120');
 
                     
                     
@@ -85,9 +93,26 @@ CREATE PROCEDURE registro_producto(Pproveedor_id INT, Pcategoria_id INT, Pcantid
 
 DELIMITER ;
 
-CALL registro_producto(1,  4, 50, 'Monitor 24" HP 24F', 185.00);
-CALL registro_producto(1,  1, 150, 'Mause Gaming XTrike me Viper', 15.00);
-CALL registro_producto(6,  7, 35, 'Silla Gaming Razer Iskur X', 385.00);
+CALL registro_producto(4,  4, 160, 'Sceptre 20 "1600x900 75Hz Monitor LED ultradelgado 2x HDMI VGA Altavoces incorporados', 80.00),
+			(4,  4, 160, 'BenQ Monitor de computadora GW2780 IPS 1080P FHD de 27 pulgadas con altavoces integrados', 149.00),
+			(4,  4, 160, 'Acer SB220Q bi - Monitor de 21.5 pulgadas Full HD (1920 x 1080), monitor IPS Ultra delgado', 95.00),
+			(4,  4, 160, 'SAMSUNG LC27F398FWNXZA SAMSUNG C27F398 Monitor LED curvado de 27 pulgadas', 149.00),
+			(5,  8, 400, 'Interruptor TP-Link de red Gigabit Ethernet de 5 puerto', 16.00),
+			(5,  8, 400, 'TP-Link AC1200 - Extensor de rango de WiFi, Blanco', 23.00),
+			(5,  8, 350, 'TP-Link AX1800 WiFi 6 Router - Enrutador de Internet inalámbrico de doble banda, enrutador Gigabit', 80.00),
+			(5,  8, 160, 'TP-Link Adaptador de WiFi USB AC600 para PC - Adaptador de red inalámbrica para escritorio con 2.4GHz', 20.00),
+			(2,  9, 160, 'Unidad de disco duro externo portátil Seagate de 2 TB con puerto USB 3.0', 62.00),
+			(2,  9, 160, 'SSD M.2 980 PRO 2TB PCIe NVMe Gen4 interno para juegos', 220.00),
+			(2,  9, 160, 'SAMSUNG 870 EVO 2.5 pulgadas SATA III SSD interno', 99.00),
+			(2,  9, 160, 'Western Digital Unidad interna de estado sólido SSD WD Blue SA510 SATA de 1 TB', 75.00),
+			(9,  10, 160, 'HP DeskJet 2752 Impresora de inyección de tinta a color inalámbrica todo en uno', 69.00),
+			(9,  10, 160, 'Epson EcoTank ET-2720 - Impresora multifuncional inalámbrica a color con escáner y copiadora',185.00),
+			(9,  10, 160, 'Canon TS202 Inkjet impresora fotográfica, color negro',219.00),
+			(9,  10, 160, 'Brother Impresora láser compacta monocromática, HLL2390DW, cómoda copia y escaneo',189.00),
+			(10,  1, 160, 'Auricular USB H390 ClearChat Comfort de Logitech', 35.00),
+			(10,  1, 160, 'Logitech M510 - Mouse inalámbrico para computador USB', 27.00),
+			(10,  1, 160, 'Logitech Brio, webcam Ultra HD para videoconferencias y grabación de videos', 136.00),
+			(10,  1, 160, 'Logitech MK270 - Combo inalámbrico de teclado y mouse para Windows', 23.00);
 
 
 
@@ -97,6 +122,14 @@ INSERT INTO tbl_ventas(cliente_id, producto_id, cantidad_compra, precio_unitario
 						 (1, 1, 10, 185.00, 'Tarjeta', 0.0, 1850, NOW());
 
 
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS tbl_ventas_AI 
+AFTER INSERT ON tbl_ventas FOR EACH ROW
+	BEGIN
+		UPDATE tbl_stock SET cantidad = cantidad - NEW.cantidad_compra WHERE id_stock = producto_id;
+	END; $$
+
+DELIMITER ;
 
 
 
@@ -105,6 +138,15 @@ INSERT INTO tbl_pedidos(proveedor_id, producto_id, usuario_id, cantidad_pedido, 
 		VALUE(10, 2, 1, 100, NOW()),
 			(10, 1, 1, 50, NOW());
         
+CREATE TRIGGER IF NOT EXISTS tbl_pedidos_AI
+AFTER INSERT ON tbl_pedidos FOR EACH ROW
+	BEGIN
+		UPDATE tbl_stock SET cantidad = cantidad + cantidad_pedido WHERE id_stock = producto_id;
+	END; $$
+
+DELIMITER;
+
+
 
 
 # INSERT DE INVENTARIOS 
