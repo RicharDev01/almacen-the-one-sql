@@ -49,7 +49,7 @@ CREATE TABLE tbl_proveedores(
 # ## CREAMOS LA TABLA STOCK ##
 CREATE TABLE tbl_stock(
 	id_stock INT NOT NULL AUTO_INCREMENT,
-    cantidad INT NOT NULL,
+    cantidad INT NOT NULL DEFAULT 0,
     CONSTRAINT pk_stock PRIMARY KEY (id_stock)
 );
 
@@ -61,8 +61,8 @@ CREATE TABLE tbl_productos(
     categoria_id	INT NOT NULL,
     stock_id		INT NOT NULL,
     nombre_producto	VARCHAR(250) NOT NULL,
-    precio_de_compra DECIMAL(10, 2),
-    precio_de_venta DECIMAL(10,2),
+    precio_de_compra DECIMAL(10, 2) DEFAULT 0.00,
+    precio_de_venta DECIMAL(10,2) DEFAULT 0.00,
     fecha_ingreso	TIMESTAMP,
     CONSTRAINT pk_producto PRIMARY KEY (id_producto),
     
@@ -83,11 +83,11 @@ CREATE TABLE tbl_ventas(
 	id_venta 		INT NOT NULL AUTO_INCREMENT,
     cliente_id 		INT NOT NULL,
     producto_id 	INT NOT NULL,
-    cantidad_compra INT NULL,
-    precio_unitario DECIMAL(10,2),
+    cantidad_compra INT NULL DEFAULT 0,
+    precio_unitario DECIMAL(10,2) DEFAULT 0.00,
     forma_pago		ENUM('Tarjeta', 'Efectivo'),
-    descuento		DECIMAL(2, 2),
-    monto_total 	DECIMAL(10, 2),
+    descuento		DECIMAL(2, 2) DEFAULT 0.00,
+    monto_total 	DECIMAL(10, 2) DEFAULT 0.00,
     fecha_venta		TIMESTAMP,
     CONSTRAINT pk_venta PRIMARY KEY (id_venta),
     
@@ -104,7 +104,7 @@ CREATE TABLE tbl_pedidos(
     proveedor_id	INT NOT NULL,
     producto_id		INT NOT NULL,
     usuario_id		INT NOT NULL,
-    cantidad_pedido INT NOT NULL,
+    cantidad_pedido INT NOT NULL DEFAULT 0,
     fecha_pedido	TIMESTAMP,
     CONSTRAINT pk_pedidos PRIMARY KEY (id_pedido),
     
@@ -122,10 +122,10 @@ CREATE TABLE tbl_pedidos(
 CREATE TABLE tbl_inventarios(
 	id_inventario 	INT NOT NULL AUTO_INCREMENT,
     producto_id		INT NOT NULL,
-    entradas		INT NULL,
-    salidas			INT NULL,
-    ingresos		DECIMAL(10,2),
-    egresos			DECIMAL(10,2),
+    entradas		INT NULL DEFAULT 0,
+    salidas			INT NULL DEFAULT 0,
+    ingresos		DECIMAL(10,2) DEFAULT 0.00,
+    egresos			DECIMAL(10,2) DEFAULT 0.00,
     CONSTRAINT pk_inventario PRIMARY KEY (id_inventario),
     
     CONSTRAINT fk_inventario_producto FOREIGN KEY tbl_inventarios(producto_id)

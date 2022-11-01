@@ -135,7 +135,7 @@ CREATE TRIGGER tbl_ventas_AI
 AFTER INSERT ON tbl_ventas FOR EACH ROW
 	BEGIN
 		UPDATE tbl_stock SET cantidad = cantidad - NEW.cantidad_compra WHERE id_stock = NEW.producto_id;
-        UPDATE tbl_inventarios SET salidas = salidas + NEW.cantidad_compra WHERE producto_id = NEW.producto_id;
+        UPDATE tbl_inventarios SET salidas = salidas + NEW.cantidad_compra, ingresos = ingresos + (NEW.precio_unitario * NEW.cantidad_compra) WHERE tbl_inventarios.producto_id = NEW.producto_id;
 	END; $$
 
 DELIMITER ;
