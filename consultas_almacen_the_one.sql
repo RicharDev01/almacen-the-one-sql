@@ -24,13 +24,15 @@ SELECT * FROM tbl_proveedores;
 # consulta multitabla que muestra la tabla de productos.
 SELECT p.id_producto AS ID, pdor.nombre_proveedor AS PROVEEDOR, c.nombre_categoria AS CATEGORIA, 
 	   s.cantidad AS STOCK, p.nombre_producto AS NOMBRE, p.precio_producto AS PRECIO
-	FROM tbl_productos p
+	FROM tbl_productos p 
 INNER JOIN tbl_stock s 
     ON p.stock_id = s.id_stock
 INNER JOIN tbl_proveedores pdor 
     ON p.proveedor_id = pdor.id_proveedor
 INNER JOIN tbl_categorias c 
-    ON p.categoria_id = c.id_categoria;
+    ON p.categoria_id = c.id_categoria
+     having p.id_producto = 2 OR p.id_producto = 12 OR p.id_producto = 20
+     ORDER BY p.id_producto;
     
     
 
@@ -67,13 +69,13 @@ SELECT i.id_inventario AS ID, pto.nombre_producto AS PRODUCTO, c.nombre_categori
 INNER JOIN  tbl_productos pto
 	ON i.producto_id = pto.id_producto
 INNER JOIN tbl_categorias c
-	ON	i.categoria_id = c.id_categoria
+	ON	pto.categoria_id = c.id_categoria
 INNER JOIN tbl_pedidos p2
 	ON i.pedido_id = p2.id_pedido
 INNER JOIN tbl_ventas v
 	ON i.venta_id = v.id_venta
 INNER JOIN tbl_stock s
-	ON i.stock_id = s.id_stock
+	ON pto.stock_id = s.id_stock
 
 
 

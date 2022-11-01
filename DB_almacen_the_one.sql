@@ -61,7 +61,9 @@ CREATE TABLE tbl_productos(
     categoria_id	INT NOT NULL,
     stock_id		INT NOT NULL,
     nombre_producto	VARCHAR(250) NOT NULL,
-    precio_producto DECIMAL(10, 2),
+    precio_de_compra DECIMAL(10, 2),
+    precio_de_venta DECIMAL(10,2),
+    fecha_ingreso	TIMESTAMP,
     CONSTRAINT pk_producto PRIMARY KEY (id_producto),
     
     CONSTRAINT fk_producto_proveedor FOREIGN KEY tbl_productos(proveedor_id)
@@ -120,26 +122,14 @@ CREATE TABLE tbl_pedidos(
 CREATE TABLE tbl_inventarios(
 	id_inventario 	INT NOT NULL AUTO_INCREMENT,
     producto_id		INT NOT NULL,
-    categoria_id	INT NOT NULL,
-    pedido_id		INT NULL,
-    venta_id		INT NULL,
-    stock_id		INT NOT NULL,
+    entradas		INT NULL,
+    salidas			INT NULL,
+    ingresos		DECIMAL(10,2),
+    egresos			DECIMAL(10,2),
     CONSTRAINT pk_inventario PRIMARY KEY (id_inventario),
     
     CONSTRAINT fk_inventario_producto FOREIGN KEY tbl_inventarios(producto_id)
-		REFERENCES tbl_productos(id_producto),
-        
-	CONSTRAINT fk_inventario_categoria FOREIGN KEY tbl_inventarios(categoria_id)
-		REFERENCES tbl_categorias(id_categoria),
-        
-	CONSTRAINT fk_inventario_pedido FOREIGN KEY tbl_inventarios(pedido_id)
-		REFERENCES tbl_pedidos(id_pedido),
-        
-	CONSTRAINT fk_inventario_venta FOREIGN KEY tbl_inventarios(venta_id)
-		REFERENCES tbl_ventas(id_venta),
-        
-	CONSTRAINT fk_inventario_stock FOREIGN KEY tbl_inventarios(stock_id)
-		REFERENCES tbl_stock(id_stock)
+		REFERENCES tbl_productos(id_producto)
 );
 
 
